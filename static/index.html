@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voice Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      display: flex;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #1f1f1f;
+      padding: 20px;
+      height: 100vh;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar h2 {
+      color: #00bcd4;
+      font-size: 20px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .sidebar ul li:hover {
+      background-color: #333333;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+    }
+
+    .chat-window {
+      flex: 1;
+      border: 1px solid #444;
+      padding: 10px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      background-color: #1f1f1f;
+    }
+
+    .chat-message {
+      margin-bottom: 10px;
+    }
+
+    .chat-message.user {
+      text-align: right;
+      color: #90caf9;
+    }
+
+    .chat-message.bot {
+      text-align: left;
+      color: #a5d6a7;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background-color: #2a2a2a;
+      color: #fff;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #00bcd4;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+    }
+
+    #loader {
+      display: none;
+      margin-left: 10px;
+    }
+
+    #transcriptDiv {
+      font-style: italic;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Voice Chatbot</h2>
+    <strong>Features:</strong>
+    <ul>
+      <li>🎤 Voice input & output</li>
+      <li>💬 Text-based queries</li>
+      <li>⚡ Powered by Phi-3 Mini</li>
+      <li>☁️ Fully deployed on Azure VM, and hosted site with ngrok</li>
+    </ul>
+    <strong>Limitations:</strong>
+    <ul>
+      <li>🚫 No context memory</li>
+      <li>⚠️ May respond incorrectly</li>
+      <li>⏳ No streaming response yet</li>
+      <li>❗ Supports only English for speech recognition</li>
+    </ul>
+    <strong>How to Scale:</strong>
+    <ul>
+      <li>🔒 Add authentication (OAuth2 / Firebase Auth / JWT)</li>
+      <li>🗄️ Store conversation logs in PostgreSQL / MongoDB</li>
+      <li>🗣️ Add Human like experience in conversation ( Eleven Labs )</li>
+      <li>🐳 Dockerize the FastAPI app and Use a load balancer</li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class="chat-window" id="chat-window"></div>
+
+    <div id="loader">Generating response...</div>
+    <div id="listening-indicator" style="display: none;">🎙️ Listening...</div>
+
+    <div class="input-area">
+      <input type="text" id="text-input" placeholder="Type your message here..." />
+      <button onclick="sendText()">Send</button>
+      <button id="mic-btn">🎤 Speak</button>
+    </div>
+  </div>
+</body>
+</html>
